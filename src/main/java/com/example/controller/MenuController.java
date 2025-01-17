@@ -82,7 +82,7 @@ public class MenuController {
         }
         int userChoice = io.getInteger("Choose an item to add to cart");
         if(userChoice > 0 && userChoice <= items.size()) {
-            Item itemSelected = items.get(userChoice -1);
+            Item itemSelected = items.get(userChoice - 1);
             int quantity = io.getInteger("How many of this item would you like to add?");
             cartService.addItem(itemSelected, quantity);
             io.displayMessage("Successfully added " + quantity + " of " + itemSelected);
@@ -94,8 +94,21 @@ public class MenuController {
     public void removeItemMenu() {
         io.displayMessage("********Remove Item********");
         cartService.displayCart();
-        //io.getInteger("Choose an item to remove.");
-
+        int userChoice = io.getInteger("Choose an item to remove.");
+        if(userChoice > 0 && userChoice <= cartService.cart.getCart().size()) {
+            int counter = 1;
+            for(Item item : cartService.cart.getCart().keySet()) {
+                if (counter == userChoice) {
+                    int quantity = io.getInteger("How many of this item would you like to remove?");
+                    cartService.removeItem(item, quantity);
+                    io.displayMessage("Successfully removed " + quantity + " of " + item.getName());
+                    return;
+                }
+                counter++;
+            }
+        } else {
+            io.displayMessage("Please choose a valid selection");
+        }
     }
 
     public void confirmCheckout() {

@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class CartService {
     private ConsoleIO io;
-    private Cart cart = new Cart();
+    public Cart cart = new Cart();
 
     public CartService(ConsoleIO io, Cart cart) {
         this.io = io;
@@ -17,8 +17,16 @@ public class CartService {
         cart.getCart().put(item, quantity); //takes the HashMap cart created in Cart class
     }
 
-    public void removeItem() {
-
+    public void removeItem(Item item, int quantity) {
+        Map<Item, Integer> cartList = cart.getCart();
+        if(cartList.containsKey(item)) {
+            int currentQuantity = cartList.get(item);
+            if(currentQuantity <= quantity) {
+                cartList.remove(item);
+            } else {
+                cartList.put(item, currentQuantity - quantity);
+            }
+        }
     }
     public double getTotal() {
         return 0;
@@ -37,5 +45,9 @@ public class CartService {
                 io.displayMessage(counter++ + ". " + item.getName() + ": " + quantity);
             }
         }
+    }
+
+    public void clearCart() {
+
     }
 }
