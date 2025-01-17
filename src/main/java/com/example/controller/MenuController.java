@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.model.Cart;
 import com.example.model.CartService;
 import com.example.model.Item;
 import com.example.view.ConsoleIO;
@@ -7,16 +8,19 @@ import com.example.view.ConsoleIO;
 import java.io.Console;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 public class MenuController {
     ConsoleIO io;
     CartService cartService;
+    Cart cart;
     boolean isRunning = false;
     ArrayList<Item> items;
 
-    public MenuController(ConsoleIO io, CartService cartService) {
+    public MenuController(ConsoleIO io, CartService cartService, Cart cart) {
         this.io = io;
-        this.cartService = cartService;
+        this.cartService = new CartService(io, cart);
+        this.cart = cart;
         items = new ArrayList<>();
         items.addAll(Arrays.asList(
                 new Item("Energy drink", 3.50),
@@ -49,7 +53,7 @@ public class MenuController {
                     removeItemMenu();
                     break;
                 case 3:
-                    // displayCart()
+                    cartService.displayCart();
                     break;
                 case 4:
                     confirmCheckout();
@@ -59,7 +63,6 @@ public class MenuController {
                     isRunning = false;
                     break;
             }
-            break;
         }
     }
 
@@ -90,6 +93,9 @@ public class MenuController {
     }
     public void removeItemMenu() {
         io.displayMessage("********Remove Item********");
+        cartService.displayCart();
+        //io.getInteger("Choose an item to remove.");
+
     }
 
     public void confirmCheckout() {

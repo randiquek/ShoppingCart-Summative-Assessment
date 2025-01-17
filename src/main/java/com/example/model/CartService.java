@@ -1,7 +1,17 @@
 package com.example.model;
 
+import com.example.view.ConsoleIO;
+
+import java.util.Map;
+
 public class CartService {
-    Cart cart = new Cart();
+    private ConsoleIO io;
+    private Cart cart = new Cart();
+
+    public CartService(ConsoleIO io, Cart cart) {
+        this.io = io;
+        this.cart = cart;
+    }
 
     public void addItem(Item item, int quantity) {
         cart.getCart().put(item, quantity); //takes the HashMap cart created in Cart class
@@ -17,6 +27,15 @@ public class CartService {
 
     }
     public void displayCart() {
-
+        Map<Item, Integer> cartList = cart.getCart();
+        if(cartList.isEmpty()) {
+            io.displayMessage("Your cart is empty");
+        } else {
+            int counter = 1;
+            for(Item item : cartList.keySet()) {
+                int quantity = cartList.get(item);
+                io.displayMessage(counter++ + ". " + item.getName() + ": " + quantity);
+            }
+        }
     }
 }
