@@ -15,6 +15,7 @@ public class ConsoleIO {
     }
 
     public int getInteger(String prompt) {
+        displayMessage(prompt);
         return console.nextInt();
     }
 
